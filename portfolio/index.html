@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Armaan — Mechanical Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12161B;
+    --panel:#1A2129;
+    --panel-2:#1F2731;
+    --line:#2C3540;
+    --text:#E7E9E4;
+    --text-soft:#8FA0AB;
+    --structural:#6FA3D6;
+    --amber:#E8A33D;
+    --red:#D1495B;
+    --teal:#3FA7A0;
+    --blue:#2C5F8A;
+    --max:1080px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  ::selection{background:var(--amber); color:#12161B;}
+
+  a{color:inherit;}
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--amber);
+    outline-offset:3px;
+  }
+
+  h1,h2,h3{
+    font-family:'Big Shoulders Display', sans-serif;
+    margin:0;
+    letter-spacing:0.005em;
+    text-transform:uppercase;
+    color:var(--text);
+  }
+
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  .label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--structural);
+  }
+
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 28px; }
+
+  .grid-bg-outer{
+    position:absolute; inset:0;
+    overflow:hidden;
+    mask-image:radial-gradient(ellipse 70% 60% at 30% 20%, black, transparent 75%);
+    -webkit-mask-image:radial-gradient(ellipse 70% 60% at 30% 20%, black, transparent 75%);
+    pointer-events:none;
+  }
+  .grid-bg{
+    width:100%; height:100%;
+    background-image:
+      linear-gradient(rgba(111,163,214,0.14) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(111,163,214,0.14) 1px, transparent 1px);
+    background-size:42px 42px;
+  }
+
+  /* ===== NAV ===== */
+  nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(18,22,27,0.86);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    padding-top:16px; padding-bottom:16px;
+  }
+  .nav-mark{
+    font-family:'Big Shoulders Display', sans-serif;
+    font-weight:700;
+    font-size:1.3rem;
+    text-transform:uppercase;
+  }
+  .nav-links{ display:flex; gap:28px; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    text-decoration:none;
+    color:var(--text-soft);
+    transition:color .15s ease;
+  }
+  .nav-links a:hover{color:var(--amber);}
+
+  /* ===== HERO ===== */
+  header.hero{
+    position:relative;
+    padding:88px 0 70px;
+    border-bottom:1px solid var(--line);
+    overflow:hidden;
+  }
+  .hero-inner{ position:relative; z-index:1; }
+
+  .name-wrap{
+    margin-bottom:4px;
+  }
+  h1.name{
+    font-size:clamp(3.4rem, 9vw, 6.8rem);
+    line-height:0.88;
+    font-weight:800;
+    max-width:16ch;
+    color:#EEF1EE;
+  }
+
+  .axis-gizmo-hero{
+    position:absolute;
+    top:20px; left:28px;
+    z-index:2;
+    width:56px; height:56px;
+    opacity:0.8;
+  }
+  .hero-eyebrow{ display:inline-flex; align-items:center; gap:10px; margin-bottom:20px; }
+  .hero-eyebrow .dot{ width:6px; height:6px; border-radius:50%; background:var(--amber); }
+  h1.name{
+    font-size:clamp(3.4rem, 9vw, 6.8rem);
+    line-height:0.88;
+    font-weight:800;
+    max-width:16ch;
+  }
+  .hero-role{
+    margin-top:20px;
+    font-size:1.1rem;
+    color:var(--text-soft);
+    max-width:56ch;
+  }
+  .hero-meta{ margin-top:26px; display:flex; gap:22px; flex-wrap:wrap; }
+  .hero-meta span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    color:var(--text-soft);
+    border-left:2px solid var(--line);
+    padding-left:10px;
+  }
+
+  /* ===== CFD VIEWPORT (signature element) ===== */
+  .viewport{
+    margin-top:52px;
+    position:relative;
+    border:1px solid var(--line);
+    background:#0D1013;
+    overflow:hidden;
+  }
+  .viewport-titlebar{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:10px 16px;
+    border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+    color:var(--text-soft);
+    letter-spacing:0.04em;
+  }
+  .viewport-titlebar .dots{ display:flex; gap:6px; }
+  .viewport-titlebar .dots span{
+    width:7px; height:7px; border-radius:50%; background:var(--line);
+  }
+  .viewport-canvas{
+    position:relative;
+    aspect-ratio:16/8.2;
+    background:#0D1013;
+    display:flex; align-items:center; justify-content:center;
+    overflow:hidden;
+  }
+  .viewport-canvas img{
+    width:100%; height:100%; object-fit:contain;
+    display:block;
+  }
+
+  .legend-bar{
+    display:flex; align-items:center; gap:12px;
+    padding:12px 16px;
+    border-top:1px solid var(--line);
+    background:var(--panel);
+  }
+  .legend-bar .grad{
+    flex:1; height:8px;
+    background:linear-gradient(90deg, var(--blue), var(--teal), var(--amber), var(--red));
+  }
+  .legend-bar .lg-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    color:var(--text-soft);
+    letter-spacing:0.03em;
+    white-space:nowrap;
+  }
+
+  /* ===== SECTIONS ===== */
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{border-bottom:none;}
+  .section-head{ margin-bottom:42px; }
+  .section-head h2{ font-size:clamp(2rem, 4.6vw, 2.9rem); margin-top:8px; }
+
+  /* ===== PROJECTS ===== */
+  .project{ padding:52px 0; border-top:1px solid var(--line); }
+  .project:first-of-type{ border-top:none; padding-top:0; }
+
+  .project-top{ margin-bottom:20px; }
+  .project-top h3{ font-size:clamp(1.7rem, 3.6vw, 2.4rem); }
+
+  .project-media-main{
+    border:1px solid var(--line);
+    background:var(--panel);
+    aspect-ratio:21/9;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    margin-bottom:14px;
+  }
+  .project-media-row{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:24px;
+  }
+  .project-media-row .project-media-sm{
+    border:1px solid var(--line);
+    background:var(--panel);
+    aspect-ratio:4/3;
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+  }
+  .project-media-main .ph-label,
+  .project-media-sm .ph-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    color:var(--text-soft);
+    text-align:center;
+    padding:0 20px;
+    letter-spacing:0.04em;
+  }
+  .corner{ position:absolute; width:14px; height:14px; border:1px solid var(--structural); opacity:0.6; }
+  .corner.tl{ top:10px; left:10px; border-right:none; border-bottom:none; }
+  .corner.br{ bottom:10px; right:10px; border-left:none; border-top:none; }
+
+  .project-media-main, .project-media-sm{ overflow:hidden; }
+  .project-media-main img, .project-media-sm img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+  .media-item{ display:flex; flex-direction:column; gap:8px; }
+  .media-caption{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:var(--text-soft);
+    margin:0;
+    line-height:1.5;
+  }
+  .media-caption[data-empty="true"]{ opacity:0.5; font-style:italic; }
+
+  .project-copy p{
+    color:var(--text-soft);
+    margin:0 0 18px;
+    max-width:64ch;
+    font-size:1.01rem;
+  }
+  .tags{ display:flex; flex-wrap:wrap; gap:8px; }
+  .process-block{ margin-top:36px; }
+  .process-block .label{ display:block; margin-bottom:14px; }
+  .process-block .process-group + .process-group{ margin-top:32px; }
+  .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.7rem;
+    letter-spacing:0.03em;
+    padding:5px 10px;
+    border:1px solid var(--line);
+    color:var(--text-soft);
+    background:var(--panel);
+  }
+
+  /* ===== SKILLS ===== */
+  .skills-list{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .skill-item{ background:var(--bg); padding:24px; }
+  .skill-item .label{ margin-bottom:8px; display:block; }
+  .skill-item p{ margin:0; font-size:0.94rem; color:var(--text-soft); }
+
+  /* ===== CONTACT ===== */
+  .contact-row{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    flex-wrap:wrap; gap:24px;
+  }
+  .contact-links{ display:flex; gap:14px; flex-wrap:wrap; }
+  .contact-links a{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    text-decoration:none;
+    padding:12px 18px;
+    border:1px solid var(--line);
+    color:var(--text);
+    transition:background .15s ease, border-color .15s ease, color .15s ease;
+  }
+  .contact-links a:hover{ border-color:var(--amber); color:var(--amber); }
+  .contact-links a.primary{ background:var(--amber); border-color:var(--amber); color:#12161B; font-weight:500;}
+  .contact-links a.primary:hover{ background:#F0B15C; border-color:#F0B15C; color:#12161B; }
+
+  footer{ padding:26px 0 40px; }
+  footer .wrap{
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; color:var(--text-soft);
+  }
+
+  @media (max-width:760px){
+    .project-media-row{ grid-template-columns:1fr; }
+    .project-media-main{ aspect-ratio:4/3; }
+    .viewport-canvas{ aspect-ratio:4/3.4; }
+    .contact-row{ align-items:flex-start; }
+    .coord-readout{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="nav-mark">ARMAAN</div>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="grid-bg-outer" aria-hidden="true"><div class="grid-bg"></div></div>
+  <svg class="axis-gizmo-hero" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <line x1="50" y1="50" x2="50" y2="10" stroke="#6FA3D6" stroke-width="1.4"/>
+    <line x1="50" y1="50" x2="82" y2="68" stroke="#6FA3D6" stroke-width="1.4"/>
+    <line x1="50" y1="50" x2="18" y2="68" stroke="#6FA3D6" stroke-width="1.4"/>
+    <text x="50" y="6" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8FA0AB">Y</text>
+    <text x="90" y="72" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8FA0AB">X</text>
+    <text x="10" y="72" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="#8FA0AB">Z</text>
+    <circle cx="50" cy="50" r="2" fill="#E8A33D"/>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="hero-eyebrow">
+      <span class="dot"></span>
+      <span class="label">Incoming — Mechanical Engineering, UC Irvine</span>
+    </div>
+    <div class="name-wrap">
+      <h1 class="name" id="heroName">ARMAAN</h1>
+    </div>
+    <p class="hero-role">I design and simulate physical systems — CAD through CFD through built part. Currently building toward FSAE and a career in industry mechanical engineering.</p>
+    <div class="hero-meta">
+      <span>CAD / SolidWorks / Rhino+Grasshopper</span>
+      <span>CFD + Acoustic Simulation</span>
+      <span>3D Printing / Fabrication</span>
+    </div>
+
+    <div class="viewport">
+      <div class="viewport-titlebar">
+        <span>SOLVER — TRANSIENT · Re 4.2e4</span>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </div>
+      <div class="viewport-canvas">
+        <img src="images/muffler-pressure.png" alt="Total sound pressure level simulation of the muffler, COMSOL output">
+      </div>
+      <div class="legend-bar">
+        <span class="lg-label mono">COMSOL Multiphysics &mdash; Total Sound Pressure Level (dB)</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section id="work">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label">Selected Work</span>
+      <h2>Two projects, start to finish</h2>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <span class="label">Research Project</span>
+        <h3>Acoustic &amp; CFD-Simulated Muffler</h3>
+      </div>
+
+      <div class="media-item" style="margin-bottom:14px;">
+        <div class="project-media-main" style="margin-bottom:0;">
+          <img src="images/muffler-pressure.png" alt="Total sound pressure level simulation of the muffler">
+        </div>
+        <p class="media-caption">Total sound pressure level (dB) across the muffler body — acoustic simulation result.</p>
+      </div>
+      <div class="project-media-row">
+        <div class="media-item">
+          <div class="project-media-sm">
+            <img src="images/muffler-velocity.png" alt="Velocity field cross-section through the muffler">
+          </div>
+          <p class="media-caption">CFD velocity field (m/s), cross-sectional view — used to evaluate backpressure through the chamber.</p>
+        </div>
+        <div class="media-item">
+          <div class="project-media-sm">
+            <img src="images/muffler-geometry.png" alt="CAD geometry of the muffler chamber">
+          </div>
+          <p class="media-caption">CAD geometry of the internal chevron baffles, prior to simulation.</p>
+        </div>
+      </div>
+
+      <div class="project-copy">
+        <p>Designed a muffler and evaluated it through coupled CFD and acoustic simulation, balancing backpressure against noise attenuation. Iterated the internal geometry against simulation output rather than guesswork — the same workflow used to validate exhaust systems in motorsport.</p>
+        <div class="tags">
+          <span class="tag">CAD</span>
+          <span class="tag">CFD</span>
+          <span class="tag">Acoustic Simulation</span>
+        </div>
+      </div>
+
+      <div class="process-block">
+        <div class="process-group">
+          <span class="label">Methodology</span>
+          <div class="project-media-row">
+            <div class="media-item">
+              <div class="project-media-sm">
+                <img src="images/muffler-methodology-1.png" alt="Sobol sensitivity indices for the muffler transmission loss parameters">
+              </div>
+              <p class="media-caption">Sobol sensitivity analysis on transmission loss — side padding thickness and top/bottom padding thickness were the dominant drivers, guiding which parameters to prioritize.</p>
+            </div>
+            <div class="media-item">
+              <div class="project-media-sm">
+                <img src="images/muffler-methodology-2.png" alt="Parameter sweep of sectional baffle length versus transmission loss across frequency">
+              </div>
+              <p class="media-caption">Parameter sweep across sectional baffle length (2–4 in), used to explore the design space before settling on a final geometry.</p>
+            </div>
+          </div>
+        </div>
+        <div class="process-group">
+          <span class="label">Results</span>
+          <div class="project-media-row">
+            <div class="media-item">
+              <div class="project-media-sm">
+                <img src="images/muffler-results-1.png" alt="Normalized power balance plot showing reflected and transmitted power versus frequency">
+              </div>
+              <p class="media-caption">Normalized power balance confirms energy conservation in the acoustic solve — reflected and transmitted power sum consistently across the frequency sweep.</p>
+            </div>
+            <div class="media-item">
+              <div class="project-media-sm">
+                <img src="images/muffler-results-2.png" alt="Transmission loss and sound pressure level versus frequency for the final muffler design">
+              </div>
+              <p class="media-caption">Final transmission loss vs. sound pressure level across the target frequency range, validating the chosen baffle geometry.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <span class="label">Capstone</span>
+        <h3>Firefighter Heat Visual Aid</h3>
+      </div>
+
+      <div class="media-item" style="margin-bottom:14px;">
+        <div class="project-media-main" style="margin-bottom:0;">
+          <img src="images/firesight-isometric.png" alt="Isometric render of the FireSight device">
+        </div>
+        <p class="media-caption">FireSight — isometric render of the final assembled device.</p>
+      </div>
+      <div class="project-media-row">
+        <div class="media-item">
+          <div class="project-media-sm">
+            <img src="images/firesight-drawing.png" alt="Dimensioned technical drawing of the FireSight device">
+          </div>
+          <p class="media-caption">Dimensioned top, front, and isometric views from the CAD drawing package.</p>
+        </div>
+        <div class="media-item">
+          <div class="project-media-sm">
+            <img src="images/firesight-solution.png" alt="Solution overview slide explaining thermal map and SCBA integration">
+          </div>
+          <p class="media-caption">Solution overview — thermal imaging integrated directly into the SCBA mask for hands-free visibility.</p>
+        </div>
+      </div>
+
+      <div class="project-copy">
+        <p>An arm-mounted screen-and-sensor device built to give firefighters real-time visual feedback in low-visibility conditions. Owned the full cycle myself — CAD, mechanical assembly, and integration of the sensor and display into a single working unit.</p>
+        <div class="tags">
+          <span class="tag">CAD</span>
+          <span class="tag">Assembly</span>
+          <span class="tag">Sensor Integration</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label">Toolkit</span>
+      <h2>What I actually work with</h2>
+    </div>
+    <div class="skills-list">
+      <div class="skill-item">
+        <span class="label">CAD</span>
+        <p>SolidWorks-style modeling, plus Rhino 3D + Grasshopper for architectural / parametric work</p>
+      </div>
+      <div class="skill-item">
+        <span class="label">Simulation</span>
+        <p>CFD and acoustic simulation, used to validate and iterate physical designs</p>
+      </div>
+      <div class="skill-item">
+        <span class="label">Fabrication</span>
+        <p>Own and operate a 3D printer; regular custom modeling and printing projects</p>
+      </div>
+      <div class="skill-item">
+        <span class="label">Approach</span>
+        <p>Comfortable learning new tools and domains quickly, by building rather than waiting to be taught</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label">Get in touch</span>
+      <h2>Let's talk</h2>
+    </div>
+    <div class="contact-row">
+      <p style="max-width:40ch; color:var(--text-soft); margin:0;">Open to conversations about FSAE, internships, or anything mechanical — reach out directly.</p>
+      <div class="contact-links">
+        <a href="mailto:your.email@example.com" class="primary">Email</a>
+        <a href="https://linkedin.com/in/your-profile" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>ARMAAN — MECHANICAL ENGINEERING</span>
+    <span>UC IRVINE, INCOMING</span>
+  </div>
+</footer>
+
+</body>
+</html>
